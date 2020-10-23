@@ -13,12 +13,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: CosmicModule
   title: Cosmic
-  description: 'Many things in this world are constant...This is [b]one[/b] of those
-    things.
-
-
-    Manual Challenge hosted in [url=https://www.discord.gg/ktane]Discord[/url]'
-  version: 1.0
-  outputFolder: D:\Program Files (x86)\Steam\steamapps\common\Keep Talking and Nobody
-    Explodes\Mods
+  description: "Many things in this world are constant...This is one of those things.\r\n\nManual
+    still being constructed but there is only one rule:\n\n[spoiler]The length of
+    the displayed word when spelled in English is the answer. Omit any Spaces, Dashes,
+    and 'And's.[/spoiler]\n\r\nManual Challenge completed in Discord[www.discord.gg]"
+  version: 1
+  outputFolder: build
   previewImage: {fileID: 2800000, guid: 98477e6d71ce7824cbf0e5bfdac8833c, type: 3}

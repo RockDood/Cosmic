@@ -26,6 +26,7 @@ public class CosmicModule : MonoBehaviour {
     static int moduleIdCounter = 1;
     int moduleId;
     bool isSolved;
+    bool IHopeThisWorks;
     private float InteractionPunchIntensityModifier = .5f;
 
     private static readonly CosmicKey[] _AnswerKey = new CosmicKey[]
@@ -129,7 +130,7 @@ public class CosmicModule : MonoBehaviour {
         new CosmicKey { Displayed = 96, Answer = 9 },
         new CosmicKey { Displayed = 97, Answer = 11 },
         new CosmicKey { Displayed = 98, Answer = 11 },
-        new CosmicKey { Displayed = 99, Answer = 10 },
+        new CosmicKey { Displayed = 99, Answer = 10 }
     };
 
     void Awake()
@@ -161,10 +162,10 @@ public class CosmicModule : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
-        selectedNumber = Rnd.Range(0, 100);
+        selectedNumber = Rnd.Range(0, 10000);
         DisplayText.text = selectedNumber.ToString();
 	}
-	
+
     void ClearEntry()
     {
         if (isSolved)
@@ -186,33 +187,96 @@ public class CosmicModule : MonoBehaviour {
         Animator anim = MovingShit[10];
         Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, SubmitButton.transform);
         SubmitButton.AddInteractionPunch(InteractionPunchIntensityModifier);
-
-        var Answer = _AnswerKey[selectedNumber];
-        if (storedEntry == "4" && Answer.Answer == 4)
+        var WhatTheFUck = _AnswerKey[selectedNumber % 100];
+        var Answer = WhatTheFUck.Answer;
+        Debug.Log(Answer);
+        if (selectedNumber > 999) {
+          Debug.Log("Fat nuts");
+          switch (selectedNumber / 1000) {
+            case 1:
+            Answer += 8 + 3;
+            break;
+            case 2:
+            Answer += 8 + 3;
+            break;
+            case 3:
+            Answer += 8 + 5;
+            break;
+            case 4:
+            Answer += 8 + 4;
+            break;
+            case 5:
+            Answer += 8 + 4;
+            break;
+            case 6:
+            Answer += 8 + 3;
+            break;
+            case 7:
+            Answer += 8 + 5;
+            break;
+            case 8:
+            Answer += 8 + 5;
+            break;
+            case 9:
+            Answer += 8 + 4;
+            break;
+          }
+        }
+        if (selectedNumber > 99) {
+          Debug.Log("hi");
+          switch ((selectedNumber % 1000 - selectedNumber % 100) / 100) {
+            case 1:
+            Answer += 7 + 3;
+            break;
+            case 2:
+            Answer += 7 + 3;
+            break;
+            case 3:
+            Answer += 7 + 5;
+            break;
+            case 4:
+            Answer += 7 + 4;
+            break;
+            case 5:
+            Answer += 7 + 4;
+            break;
+            case 6:
+            Answer += 7 + 3;
+            break;
+            case 7:
+            Answer += 7 + 5;
+            break;
+            case 8:
+            Answer += 7 + 5;
+            break;
+            case 9:
+            Answer += 7 + 4;
+            break;
+          }
+        }
+        Debug.Log(Answer);
+        if (storedEntry == "4" && Answer == 4)
         {
             if (Bomb.GetSolvedModuleNames().Count < Bomb.GetSolvableModuleNames().Count)
                 Audio.PlaySoundAtTransform("solve", transform);
             isSolved = true;
             Module.HandlePass();
             Debug.LogFormat("[Cosmic #{0}] 4 is Cosmic. Module Solved.", moduleId);
-            return;
         }
-        else if (storedEntry == Answer.Answer.ToString())
+        else if (storedEntry == Answer.ToString())
         {
-            Debug.LogFormat("[Cosmic #{0}] {1} is {2}. Continuing...", moduleId, _AnswerKey[selectedNumber].Displayed, _AnswerKey[selectedNumber].Answer);
+            Debug.LogFormat("[Cosmic #{0}] {1} is {2}. Continuing...", moduleId, selectedNumber, Answer);
             Audio.PlaySoundAtTransform("Select", transform);
-            selectedNumber = Answer.Answer;
+            selectedNumber = Answer;
             DisplayText.text = selectedNumber.ToString();
             storedEntry = "";
-            return;
         }
         else
         {
-            Debug.LogFormat("[Cosmic #{0}] Displayed number is {1}. You submitted {2}. I wanted {3}. Strike!", moduleId, _AnswerKey[selectedNumber].Displayed, storedEntry, _AnswerKey[selectedNumber].Answer);
+            Debug.LogFormat("[Cosmic #{0}] Displayed number is {1}. You submitted {2}. I wanted {3}. Strike!", moduleId, selectedNumber, storedEntry, Answer);
             Module.HandleStrike();
             DisplayText.text = selectedNumber.ToString();
             storedEntry = "";
-            return;
         }
     }
 
@@ -231,6 +295,103 @@ public class CosmicModule : MonoBehaviour {
         Debug.LogFormat("[Cosmic #{0}] Currently Displaying {1}.", moduleId, storedEntry);
         DisplayText.text = storedEntry;
     }
+
+    //#pragma warning disable 414
+    //private readonly string TwitchHelpMessage = @"Use the command !{0} submit ## to submit a two/one digit number.";
+    //#pragma warning restore 414
+
+    //IEnumerator ProcessTwitchCommand (string Command) {
+    //  yield return null;
+    //  Command = Command.Trim().ToUpper();
+    //  string[] Parameters = Command.Split(' ');
+    //  yield return null;
+    //  if (Parameters[0] != "SUBMIT" || Parameters.Length != 2)
+    //    yield return "sendtochaterror I don't understand A!";
+    //  else if (Parameters[1].Length > 2 || Parameters[1].Length == 0)
+    //    yield return "sendtochaterror I don't understand B!";
+    //  else if (!(Parameters[1].Any(x => "0123456789".Contains(x))))
+    //    yield return "sendtochaterror I don't understand C!";
+    //  else {
+    //    for (int i = 0; i < Parameters[1].Length; i++)
+    //      NumberButtons[int.Parse(Parameters[1][i].ToString())].OnInteract();
+    //    SubmitButton.OnInteract();
+    //  }
+    //}
+
+    //IEnumerator TwitchHandleForceSolve () {
+    //  while (!isSolved) {
+    //    var WhatTheFUck = _AnswerKey[selectedNumber % 100];
+    //    var AutosolveMethod = WhatTheFUck.Answer;
+    //    if (selectedNumber > 999) {
+    //      switch (selectedNumber / 1000) {
+    //        case 1:
+    //        AutosolveMethod += 8 + 3;
+    //        break;
+    //        case 2:
+    //        AutosolveMethod += 8 + 3;
+    //        break;
+    //        case 3:
+    //        AutosolveMethod += 8 + 5;
+    //        break;
+    //        case 4:
+    //        AutosolveMethod += 8 + 4;
+    //        break;
+    //        case 5:
+    //        AutosolveMethod += 8 + 4;
+    //        break;
+    //        case 6:
+    //        AutosolveMethod += 8 + 3;
+    //        break;
+    //        case 7:
+    //        AutosolveMethod += 8 + 5;
+    //        break;
+    //        case 8:
+    //        AutosolveMethod += 8 + 5;
+    //        break;
+    //        case 9:
+    //        AutosolveMethod += 8 + 4;
+    //        break;
+    //      }
+    //    }
+    //    if (selectedNumber > 99) {
+    //      switch ((selectedNumber % 1000 - selectedNumber % 100) / 100) {
+    //        case 1:
+    //        AutosolveMethod += 7 + 3;
+    //        break;
+    //        case 2:
+    //        AutosolveMethod += 7 + 3;
+    //        break;
+    //        case 3:
+    //        AutosolveMethod += 7 + 5;
+    //        break;
+    //        case 4:
+    //        AutosolveMethod += 7 + 4;
+    //        break;
+    //        case 5:
+    //        AutosolveMethod += 7 + 4;
+    //        break;
+    //        case 6:
+    //        AutosolveMethod += 7 + 3;
+    //        break;
+    //        case 7:
+    //        AutosolveMethod += 7 + 5;
+    //        break;
+    //        case 8:
+    //        AutosolveMethod += 7 + 5;
+    //        break;
+    //        case 9:
+    //        AutosolveMethod += 7 + 4;
+    //        break;
+    //      }
+    //    }
+    //    for (int i = 0; i < AutosolveMethod.ToString().Length; i++) {
+    //      NumberButtons[int.Parse(AutosolveMethod.ToString()[i].ToString())].OnInteract();
+    //      yield return new WaitForSeconds(.1f);
+    //    }
+    //    SubmitButton.OnInteract();
+    //    yield return new WaitForSeconds(.1f);
+    //  }
+    //}
 }
 
 sealed class CosmicKey

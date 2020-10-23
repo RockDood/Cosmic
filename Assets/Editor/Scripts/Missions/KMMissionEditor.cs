@@ -21,8 +21,13 @@ public class KMMissionEditor : Editor
 
             //Basic mission meta-data
             EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.PrefixLabel("ID:");
+            EditorGUILayout.PrefixLabel("ID");
             EditorGUILayout.SelectableLabel(serializedObject.targetObject.name);
+            EditorGUILayout.EndHorizontal();
+
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.PrefixLabel("ID In-Game");
+            EditorGUILayout.SelectableLabel(string.Format("mod_{0}_{1}", ModConfig.ID, serializedObject.targetObject.name));
             EditorGUILayout.EndHorizontal();
 
             EditorGUILayout.PropertyField(serializedObject.FindProperty("DisplayName"));
@@ -142,10 +147,8 @@ public class KMMissionEditor : Editor
         EditorGUILayout.BeginHorizontal();
 
         //Count
-        componentPoolProperty.FindPropertyRelative("Count").intValue = EditorGUILayout.IntPopup(
-            componentPoolProperty.FindPropertyRelative("Count").intValue,
-            new string[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11" },
-            new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 }, GUILayout.Width(60));
+        componentPoolProperty.FindPropertyRelative("Count").intValue = Math.Max(EditorGUILayout.IntField(
+            componentPoolProperty.FindPropertyRelative("Count").intValue, GUILayout.Width(60)), 1);
 
 
         //Summary of types in this pool

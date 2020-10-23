@@ -1,1 +1,1 @@
-Cosmic
+#[ModKit Wiki](../../wiki)
