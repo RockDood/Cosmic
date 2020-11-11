@@ -296,102 +296,114 @@ public class CosmicModule : MonoBehaviour {
         DisplayText.text = storedEntry;
     }
 
-    //#pragma warning disable 414
-    //private readonly string TwitchHelpMessage = @"Use the command !{0} submit ## to submit a two/one digit number.";
-    //#pragma warning restore 414
+#pragma warning disable 414
+    private readonly string TwitchHelpMessage = @"Use the command !{0} submit ## to submit a two/one digit number.";
+#pragma warning restore 414
 
-    //IEnumerator ProcessTwitchCommand (string Command) {
-    //  yield return null;
-    //  Command = Command.Trim().ToUpper();
-    //  string[] Parameters = Command.Split(' ');
-    //  yield return null;
-    //  if (Parameters[0] != "SUBMIT" || Parameters.Length != 2)
-    //    yield return "sendtochaterror I don't understand A!";
-    //  else if (Parameters[1].Length > 2 || Parameters[1].Length == 0)
-    //    yield return "sendtochaterror I don't understand B!";
-    //  else if (!(Parameters[1].Any(x => "0123456789".Contains(x))))
-    //    yield return "sendtochaterror I don't understand C!";
-    //  else {
-    //    for (int i = 0; i < Parameters[1].Length; i++)
-    //      NumberButtons[int.Parse(Parameters[1][i].ToString())].OnInteract();
-    //    SubmitButton.OnInteract();
-    //  }
-    //}
+    IEnumerator ProcessTwitchCommand(string Command)
+    {
+        yield return null;
+        Command = Command.Trim().ToUpper();
+        string[] Parameters = Command.Split(' ');
+        yield return null;
+        if (Parameters[0] != "SUBMIT" || Parameters.Length != 2)
+            yield return "sendtochaterror I don't understand";
+        else if (Parameters[1].Length > 2 || Parameters[1].Length == 0)
+            yield return "sendtochaterror I don't understand";
+        else if (!(Parameters[1].Any(x => "0123456789".Contains(x))))
+            yield return "sendtochaterror I don't understand";
+        else
+        {
+            for (int i = 0; i < Parameters[1].Length; i++)
+            {
+                NumberButtons[int.Parse(Parameters[1][i].ToString())].OnInteract();
+                yield return new WaitForSeconds(.1f);
+            }
+            SubmitButton.OnInteract();
+        }
+    }
 
-    //IEnumerator TwitchHandleForceSolve () {
-    //  while (!isSolved) {
-    //    var WhatTheFUck = _AnswerKey[selectedNumber % 100];
-    //    var AutosolveMethod = WhatTheFUck.Answer;
-    //    if (selectedNumber > 999) {
-    //      switch (selectedNumber / 1000) {
-    //        case 1:
-    //        AutosolveMethod += 8 + 3;
-    //        break;
-    //        case 2:
-    //        AutosolveMethod += 8 + 3;
-    //        break;
-    //        case 3:
-    //        AutosolveMethod += 8 + 5;
-    //        break;
-    //        case 4:
-    //        AutosolveMethod += 8 + 4;
-    //        break;
-    //        case 5:
-    //        AutosolveMethod += 8 + 4;
-    //        break;
-    //        case 6:
-    //        AutosolveMethod += 8 + 3;
-    //        break;
-    //        case 7:
-    //        AutosolveMethod += 8 + 5;
-    //        break;
-    //        case 8:
-    //        AutosolveMethod += 8 + 5;
-    //        break;
-    //        case 9:
-    //        AutosolveMethod += 8 + 4;
-    //        break;
-    //      }
-    //    }
-    //    if (selectedNumber > 99) {
-    //      switch ((selectedNumber % 1000 - selectedNumber % 100) / 100) {
-    //        case 1:
-    //        AutosolveMethod += 7 + 3;
-    //        break;
-    //        case 2:
-    //        AutosolveMethod += 7 + 3;
-    //        break;
-    //        case 3:
-    //        AutosolveMethod += 7 + 5;
-    //        break;
-    //        case 4:
-    //        AutosolveMethod += 7 + 4;
-    //        break;
-    //        case 5:
-    //        AutosolveMethod += 7 + 4;
-    //        break;
-    //        case 6:
-    //        AutosolveMethod += 7 + 3;
-    //        break;
-    //        case 7:
-    //        AutosolveMethod += 7 + 5;
-    //        break;
-    //        case 8:
-    //        AutosolveMethod += 7 + 5;
-    //        break;
-    //        case 9:
-    //        AutosolveMethod += 7 + 4;
-    //        break;
-    //      }
-    //    }
-    //    for (int i = 0; i < AutosolveMethod.ToString().Length; i++) {
-    //      NumberButtons[int.Parse(AutosolveMethod.ToString()[i].ToString())].OnInteract();
-    //      yield return new WaitForSeconds(.1f);
-    //    }
-    //    SubmitButton.OnInteract();
-    //    yield return new WaitForSeconds(.1f);
-    //  }
-    //}
+    IEnumerator TwitchHandleForceSolve()
+    {
+        while (!isSolved)
+        {
+            var WhatTheFUck = _AnswerKey[selectedNumber % 100];
+            var AutosolveMethod = WhatTheFUck.Answer;
+            if (selectedNumber > 999)
+            {
+                switch (selectedNumber / 1000)
+                {
+                    case 1:
+                        AutosolveMethod += 8 + 3;
+                        break;
+                    case 2:
+                        AutosolveMethod += 8 + 3;
+                        break;
+                    case 3:
+                        AutosolveMethod += 8 + 5;
+                        break;
+                    case 4:
+                        AutosolveMethod += 8 + 4;
+                        break;
+                    case 5:
+                        AutosolveMethod += 8 + 4;
+                        break;
+                    case 6:
+                        AutosolveMethod += 8 + 3;
+                        break;
+                    case 7:
+                        AutosolveMethod += 8 + 5;
+                        break;
+                    case 8:
+                        AutosolveMethod += 8 + 5;
+                        break;
+                    case 9:
+                        AutosolveMethod += 8 + 4;
+                        break;
+                }
+            }
+            if (selectedNumber > 99)
+            {
+                switch ((selectedNumber % 1000 - selectedNumber % 100) / 100)
+                {
+                    case 1:
+                        AutosolveMethod += 7 + 3;
+                        break;
+                    case 2:
+                        AutosolveMethod += 7 + 3;
+                        break;
+                    case 3:
+                        AutosolveMethod += 7 + 5;
+                        break;
+                    case 4:
+                        AutosolveMethod += 7 + 4;
+                        break;
+                    case 5:
+                        AutosolveMethod += 7 + 4;
+                        break;
+                    case 6:
+                        AutosolveMethod += 7 + 3;
+                        break;
+                    case 7:
+                        AutosolveMethod += 7 + 5;
+                        break;
+                    case 8:
+                        AutosolveMethod += 7 + 5;
+                        break;
+                    case 9:
+                        AutosolveMethod += 7 + 4;
+                        break;
+                }
+            }
+            for (int i = 0; i < AutosolveMethod.ToString().Length; i++)
+            {
+                NumberButtons[int.Parse(AutosolveMethod.ToString()[i].ToString())].OnInteract();
+                yield return new WaitForSeconds(.1f);
+            }
+            SubmitButton.OnInteract();
+            yield return new WaitForSeconds(.1f);
+        }
+    }
 }
 
 sealed class CosmicKey
