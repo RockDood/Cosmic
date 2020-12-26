@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
@@ -254,6 +254,8 @@ public class CosmicModule : MonoBehaviour {
             break;
           }
         }
+	if (selectedNumber % 100 == 0)
+	  Answer -= 4;
         Debug.Log(Answer);
         if (storedEntry == "4" && Answer == 4)
         {
