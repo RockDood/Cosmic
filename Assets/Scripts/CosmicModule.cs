@@ -22,11 +22,9 @@ public class CosmicModule : MonoBehaviour {
     //Variables and Shit
     private string storedEntry = "";
     private int selectedNumber;
-    private int expectedAnswer;
     static int moduleIdCounter = 1;
     int moduleId;
     bool isSolved;
-    bool IHopeThisWorks;
     private float InteractionPunchIntensityModifier = .5f;
 
     private static readonly CosmicKey[] _AnswerKey = new CosmicKey[]
@@ -191,7 +189,6 @@ public class CosmicModule : MonoBehaviour {
         var Answer = WhatTheFUck.Answer;
         Debug.Log(Answer);
         if (selectedNumber > 999) {
-          Debug.Log("Fat nuts");
           switch (selectedNumber / 1000) {
             case 1:
             Answer += 8 + 3;
@@ -223,7 +220,6 @@ public class CosmicModule : MonoBehaviour {
           }
         }
         if (selectedNumber > 99) {
-          Debug.Log("hi");
           switch ((selectedNumber % 1000 - selectedNumber % 100) / 100) {
             case 1:
             Answer += 7 + 3;
@@ -254,9 +250,8 @@ public class CosmicModule : MonoBehaviour {
             break;
           }
         }
-	if (selectedNumber % 100 == 0)
+	if (selectedNumber % 100 == 0 && selectedNumber != 0)
 	  Answer -= 4;
-        Debug.Log(Answer);
         if (storedEntry == "4" && Answer == 4)
         {
             if (Bomb.GetSolvedModuleNames().Count < Bomb.GetSolvableModuleNames().Count)
